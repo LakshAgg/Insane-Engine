@@ -25,7 +25,7 @@ int main(int pCount, char *pArgs[]){
     free(b);
 
     char *loc = malloc(255);
-    printf("Enter the home directory.\n");
+    printf("Enter the configuration directory.\n");
     scanf("%s", loc);
     char *tmp = concat(loc, "Insane-Engine");
     free(loc);
@@ -104,7 +104,7 @@ void free_all(){
 }
 
 char *files[] = {"Meta.lua", "push.lua", "Engine.lua", "Dependencies.lua", "class.lua", 
-    "SceneManagement/Scene.lua", "SceneManagement/SceneManager.lua",
+    "SceneManagement/Scene.lua", "SceneManagement/SceneManager.lua", "SceneManagement/StackSceneManager.lua",
     "GameObjects/GameObject.lua", "GameObjects/UI.lua", 
     "Anim/animation.lua", "Anim/Animator.lua",
     "knife/base.lua", "knife/behavior.lua", "knife/bind.lua", "knife/chain.lua", "knife/convoke.lua", "knife/event.lua", "knife/gun.lua", 
@@ -113,7 +113,7 @@ char *files[] = {"Meta.lua", "push.lua", "Engine.lua", "Dependencies.lua", "clas
 };
 
 void CreateOthers(char *dir, char *path){
-    for (int i = 0; i < 24; i++)
+    for (int i = 0; i < 25; i++)
     {
         char *file = concat(dir, files[i]);
         printf("%s\n", file);

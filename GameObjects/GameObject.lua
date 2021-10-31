@@ -5,15 +5,15 @@ function GameObject:init(def)
 
     -- collision related
     self.solid = def.solid or false
-    self.on_collide = self.solid and def.on_collide or def.on_trigger
+    self.on_collide = self.solid and def.onCollide or def.on_trigger
     self.on_collide = self.on_collide or function () end
     
     -- transform related
     self.x = def.x or 0
     self.y = def.y or 0
     self.rotation = def.rotation or 0
-    self.sx = def.scale_x or 1
-    self.sy = def.scale_y or 1
+    self.sx = def.scaleX or 1
+    self.sy = def.scaleY or 1
     
     -- rendering related
     self.sprite = def.sprite

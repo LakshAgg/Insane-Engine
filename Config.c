@@ -16,13 +16,13 @@ int main(void)
     alloc = malloc(8);
 
     char *loc = malloc(255);
-    printf("Enter the home directory.\n");
+    printf("Enter the home directory. (Where the location of this directory will be saved, can be anything but choose wisely)\n");
     scanf("%s", loc);
     char *tmp = concat(loc, "Insane-Engine");
     free(loc);
     loc = tmp;
     if (mkdir(loc, 0777) == -1){
-        printf("OOPS");
+        printf("OOPS!\nCould not initialise, make sure that there is no directory name \"Insane-Engine\" in the directory or choose some other directory.\n");
         return 1;
     }
     FILE *f = fopen(concat(loc, "Config.txt"), "w");

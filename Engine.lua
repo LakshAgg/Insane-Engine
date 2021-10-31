@@ -8,14 +8,28 @@ Engine.Input.KeysPressed = {}
 Engine.Input.MouseKeyPressed = {}
 Engine.Input.MouseKeyReleased = {}
 
+SceneManagement = SceneManagerType == "normal" and SceneManager()
+SceneManagement = SceneManagerType == "stack" and StackSceneManager() or SceneManagement
+if (SceneManagement == nil) then
+    error("SceneManagerType can only be one of \"stack\" and \"normal\"")
+end
+
 function love.load()
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, PushSetup)
     love.window.setTitle(GameTitle)
-    SceneManager.loadScene()
+    
+    if (SceneManagerType == "normal") then
+        SceneManagement:loadScene()
+    elseif (SceneManagerType == "stack") then
+        SceneManagement:push()
+    else
+        error("SceneManagerType can only be one of \"stack\" and \"normal\"")
+    end
 end
 
 function love.update(dt)
-    SceneManager.update(dt)
+    Timer.update(dt)
+    SceneManagement:update(dt)
     Engine.Input.KeysPressed = {}
 
     Engine.Input.MouseKeyPressed = {}
@@ -24,7 +38,7 @@ end
 
 function love.draw()
     push:start()
-    SceneManager.render()
+    SceneManagement:render()    
     push:finish()
 end
 

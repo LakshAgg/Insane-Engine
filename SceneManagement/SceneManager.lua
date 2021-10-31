@@ -1,29 +1,29 @@
 SceneManager = Class{}
 
-function SceneManager.loadScene(scene)
+function SceneManager:loadScene(scene, exitParameters, initParameters, enterParameters)
     if scene == nil then
-        SceneManager.activeScene = Scenes.Main and Scenes.Main() or Scene()
-        SceneManager.activeScene:enter()
-        for i , v in pairs(SceneManager.activeScene.GameObjects) do
+        self.activeScene = Scenes.Main and Scenes.Main() or Scene()
+        self.activeScene:enter()
+        for i , v in pairs(self.activeScene.GameObjects) do
             for keyObj,g in pairs(v.components) do
                 g:enter(v)
             end
         end
     else
-        SceneManager.activeScene:exit()
-        SceneManager.activeScene = Scenes[scene]()
-        SceneManager.activeScene:enter()
+        self.activeScene:exit(exitParameters)
+        self.activeScene = Scenes[scene](initParameters)
+        self.activeScene:enter(enterParameters)
     end
 end
 
-function SceneManager.update(dt)
-    SceneManager.activeScene:update(dt)
-    for k, v in pairs(SceneManager.activeScene.GameObjects) do
+function SceneManager:update(dt)
+    self.activeScene:update(dt)
+    for k, v in pairs(self.activeScene.GameObjects) do
         v:update(dt)
         for keyObj,g in pairs(v.components) do
             g:update(dt, v)
         end
-        for key, c in pairs(SceneManager.activeScene.GameObjects) do
+        for key, c in pairs(self.activeScene.GameObjects) do
             if k ~= key then
                 v:collides(c)
             end
@@ -31,9 +31,9 @@ function SceneManager.update(dt)
     end
 end
 
-function SceneManager.render()
-    SceneManager.activeScene:render()
-    for k, v in pairs(SceneManager.activeScene.GameObjects) do
+function SceneManager:render()
+    self.activeScene:render()
+    for k, v in pairs(self.activeScene.GameObjects) do
         v:render()
     end
 end

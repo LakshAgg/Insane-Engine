@@ -20,3 +20,6 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 
 -- Scenes
 Scenes = {}
+
+-- type of scene management system can be "normal" || "stack"
+SceneManagerType = "normal"

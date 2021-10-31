@@ -13,6 +13,7 @@ require('Engine.Anim.animation')
 -- Scene Management
 require('Engine.SceneManagement.SceneManager')
 require('Engine.SceneManagement.Scene')
+require('Engine.SceneManagement.StackSceneManager')
 
 -- Object Management
 require('Engine.GameObjects.GameObject')

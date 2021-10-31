@@ -29,31 +29,31 @@ function UI:init(def)
 
     if self.type == 'slider' then
         self.handle = {}
-        self.handle.mode = def.handlemode or self.mode
+        self.handle.mode = def.handleMode or self.mode
         self.handle.color = {}
-        self.handle.color.r = def.handlecolor and def.handlecolor.r or 255/255
-        self.handle.color.g = def.handlecolor and def.handlecolor.g or 255/255
-        self.handle.color.b = def.handlecolor and def.handlecolor.b or 255/255
-        self.handle.color.a = def.handlecolor and def.handlecolor.a or 255/255
+        self.handle.color.r = def.handleColor and def.handleColor.r or 255/255
+        self.handle.color.g = def.handleColor and def.handleColor.g or 255/255
+        self.handle.color.b = def.handleColor and def.handleColor.b or 255/255
+        self.handle.color.a = def.handleColor and def.handleColor.a or 255/255
 
-        self.handle.width = def.handlewidth or 10
-        self.handle.height = def.handleheight or self.height
+        self.handle.width = def.handleWidth or 10
+        self.handle.height = def.handleHeight or self.height
         self.handle.x = (self.x)
         self.handle.y = (self.height / 2) + self.y - self.handle.height / 2
-        self.handle.corners = def.handlecorners
+        self.handle.corners = def.handleCorners
         
         self.value = def.type == 'slider' and def.value or 0
         self.value = self.value == nil and 0 or self.value
-        self.max_value = def.maxvalue or 0
+        self.max_value = def.maxValue or 0
     
         self.being_dragged = false
     elseif self.type == 'button' then
         self.wasPressed = false
     end
 
-    self.on_pressed = def.onclick or function () end
+    self.on_pressed = def.onClick or function () end
 
-    self.on_hover = def.onhover or function () end
+    self.on_hover = def.onHover or function () end
 end
 
 function UI:update(dt)
