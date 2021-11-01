@@ -40,7 +40,11 @@ int main(int pCount, char *pArgs[]){
     fscanf(Config, "%s", p);
     fclose(Config);
 
-    mkdir(pArgs[1], 0777);
+    if (mkdir(pArgs[1], 0777) == -1)
+    {
+        printf("OOPS! Something went wrong.\n");
+        return 2;
+    }
 
     tmp = concat(fileLocation, "main.lua");
     FILE *f = fopen(tmp, "w");
