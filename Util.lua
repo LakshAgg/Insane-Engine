@@ -5,11 +5,11 @@ Util = {}
 ---@param width any
 ---@param height any
 ---@return table
-function Util.NewSpriteSheet(sprite, width, height)
+function Util.newSpriteSheet(sprite, width, height)
     local sheet = {}
     local iWidth, iHeight = sprite:getWidth(), sprite:getHeight()
 
-    local counter, rows, columns = 0, iHeight / height, iWidth / width
+    local counter, rows, columns = 1, iHeight / height, iWidth / width
 
     for y = 0, rows - 1 do
         for x = 0, columns - 1 do
@@ -24,9 +24,9 @@ end
 ---@param table any
 ---@param s any
 ---@param e any
-function Util.table_slice(table, s, e)
+function Util.tableSlice(table, s, e)
     local newTable = {}
-    local counter = 0
+    local counter = 1
 
     for i = s or 1, e or #table do
         newTable[counter] = table[i]

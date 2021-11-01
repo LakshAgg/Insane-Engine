@@ -38,15 +38,15 @@ function UI:init(def)
 
         self.handle.width = def.handleWidth or 10
         self.handle.height = def.handleHeight or self.height
-        self.handle.x = (self.x)
         self.handle.y = (self.height / 2) + self.y - self.handle.height / 2
         self.handle.corners = def.handleCorners
         
         self.value = def.type == 'slider' and def.value or 0
         self.value = self.value == nil and 0 or self.value
         self.max_value = def.maxValue or 0
+        self.handle.x = (self.x) + self.width * self.value / self.max_value
     
-        self.being_dragged = false
+        self.beingDragged = false
     elseif self.type == 'button' then
         self.wasPressed = false
     end
@@ -57,18 +57,20 @@ function UI:init(def)
 end
 
 function UI:update(dt)
+    self.wasPressed = false
+
     if self.type == 'slider' then
         local input = Engine.Input.MouseDown(1) 
-        if self.being_dragged == false and input ~= false then
+        if self.beingDragged == false and input ~= false then
             if (input.x >= self.handle.x and input.x <= self.handle.x + self.handle.width) then
                 if (input.y >= self.handle.y and input.y <= self.handle.y + self.handle.height) then
-                    self.being_dragged = true
+                    self.beingDragged = true
                 end
             end
         elseif Engine.Input.MouseUp(1) then
-            self.being_dragged = false
+            self.beingDragged = false
         end
-        if self.being_dragged then
+        if self.beingDragged then
             input = {}
             input.x, input.y = Engine.Input.mouse()
             local o_x = (self.x)
@@ -84,8 +86,8 @@ function UI:update(dt)
                     self.wasPressed = true
                     self.on_pressed()
                     for i,v in pairs(self.components) do
-                        if v.onclick ~= nil then
-                            v.onclick()
+                        if v.onClick ~= nil then
+                            v.onClick()
                         end
                     end
                 end
@@ -102,12 +104,14 @@ function UI:update(dt)
         if (input.y >= self.y and input.y <= self.y + self.height) then
             self.on_hover()
             for i,v in pairs(self.components) do
-                if v.onhover ~= nil then
-                    v.onhover()
+                if v.onHover ~= nil then
+                    v.onHover()
                 end
             end
         end
     end
+
+    -- self.wasPressed = false;
 end
 
 function UI:render()
