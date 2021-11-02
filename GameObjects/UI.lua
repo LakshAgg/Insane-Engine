@@ -21,6 +21,10 @@ function UI:init(def)
     self.color.b = def.color and def.color.b or 255/255
     self.color.a = def.color and def.color.a or 255/255
     self.toberendered = def.render
+    self.interactable = def.interactable
+    if self.interactable == nil then
+        self.interactable = true
+    end
     if self.toberendered == nil then
         self.toberendered = true
     end
@@ -30,11 +34,7 @@ function UI:init(def)
     if self.type == 'slider' then
         self.handle = {}
         self.handle.mode = def.handleMode or self.mode
-        self.handle.color = {}
-        self.handle.color.r = def.handleColor and def.handleColor.r or 255/255
-        self.handle.color.g = def.handleColor and def.handleColor.g or 255/255
-        self.handle.color.b = def.handleColor and def.handleColor.b or 255/255
-        self.handle.color.a = def.handleColor and def.handleColor.a or 255/255
+        self.handle.color = NewColor(def.handleColor)
 
         self.handle.width = def.handleWidth or 10
         self.handle.height = def.handleHeight or self.height
@@ -45,15 +45,33 @@ function UI:init(def)
         self.value = self.value == nil and 0 or self.value
         self.max_value = def.maxValue or 0
         self.handle.x = (self.x) + self.width * self.value / self.max_value
-    
+
+        self.handle.toberendered = def.renderHandle
+        if self.handle.toberendered == nil then
+            self.handle.toberendered = true
+        end
+
         self.beingDragged = false
+
+        self.bg_color = NewColor(def.backgroundColor)
     elseif self.type == 'button' then
         self.wasPressed = false
+        self.text = def.text
+        self.textColor = NewColor(def.textColor)
     end
 
     self.on_pressed = def.onClick or function () end
 
     self.on_hover = def.onHover or function () end
+
+    -- component related
+    for k,v in pairs(self.components) do
+        if v.component == 'anim' then
+            self.toberendered = false
+            v.color = self.color
+            break
+        end
+    end
 end
 
 function UI:update(dt)
@@ -61,7 +79,7 @@ function UI:update(dt)
 
     if self.type == 'slider' then
         local input = Engine.Input.MouseDown(1) 
-        if self.beingDragged == false and input ~= false then
+        if self.beingDragged == false and input ~= false and self.interactable then
             if (input.x >= self.handle.x and input.x <= self.handle.x + self.handle.width) then
                 if (input.y >= self.handle.y and input.y <= self.handle.y + self.handle.height) then
                     self.beingDragged = true
@@ -80,7 +98,7 @@ function UI:update(dt)
         end
     elseif self.type == 'button' then
         local input = Engine.Input.MouseDown(1) 
-        if input ~= false then
+        if input ~= false and self.interactable then
             if (input.x >= self.x and input.x <= self.x + self.width) then
                 if (input.y >= self.y and input.y <= self.y + self.height) then
                     self.wasPressed = true
@@ -116,13 +134,20 @@ end
 
 function UI:render()
     if self.toberendered then
-        love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
+        SetColor(self.color)
         love.graphics.rectangle(self.mode, self.x, self.y, self.width, self.height, self.corners)
         if self.type == 'slider' then
-            love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
-            love.graphics.rectangle(self.mode, self.x, self.y, self.width, self.height, self.corners)
-            love.graphics.setColor(self.handle.color.r, self.handle.color.g, self.handle.color.b, self.handle.color.a)
-            love.graphics.rectangle(self.handle.mode, self.handle.x, self.handle.y, self.handle.width, self.handle.height, self.handle.corners)
+            if self.value > 0 then
+                SetColor(self.bg_color)
+                love.graphics.rectangle(self.mode, self.x, self.y, self.width * self.value / self.max_value, self.height, self.corners)
+            end
+            if self.handle.toberendered then
+                SetColor(self.handle.color)
+                love.graphics.rectangle(self.handle.mode, self.handle.x, self.handle.y, self.handle.width, self.handle.height, self.handle.corners)
+            end
+        elseif (self.text ~= nil) then
+            SetColor(self.textColor)
+            love.graphics.printf(self.text, self.x, self.y, self.width, "center")
         end
     end
 end

@@ -173,6 +173,10 @@ The init function, just like the GameObjects take a table of parameters:
 * mode
 * render (bool whether to render this object) [true by default]
 * components (Scripts on the element)
+* interactable
+* textColor
+* text
+* backgroundColor
 
 ### types
 It currently supports buttons and sliders only.
@@ -182,12 +186,16 @@ Buttons are simple rectangles which are drawn on the screen at the position x an
 
 You can check if the button was pressed by ```Button.wasPressed``` which is a boolean.
 
+You can temporarily disable button by setting interactable flag to false. If you want to display any text inside of the button you can set it by providing text in init parameters.
+
 ### Sliders
 Sliders are UI elements which draw two rectangles (one for handle, one for background). Both the handle and slider have different properties which you need to specify. 
 
 The handle will be drawn at handleX and handleY. The handle's width and height can be set by handleWidth and handleHeight respectively. The handle's color can be set using handleColor.
 
 You need to specify the maxValue for the slider, and the current value can be accessed through ```Slider.value```. If you want to know whether the slider is being dragged, you can access ```Slider.beingDragged```.
+
+You can set the color of the area which is value of the slider by setting backgroundColor property in init Parameters. 
 
 
 ### onHover

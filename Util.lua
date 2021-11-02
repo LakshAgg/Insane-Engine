@@ -33,4 +33,22 @@ function Util.tableSlice(table, s, e)
         counter = counter + 1
     end
     return newTable
-end 
+end
+
+
+function NewColor(def)
+    local color = {}
+    if def ~= nil then 
+        color.r = def.r or 1
+        color.g = def.g or 1
+        color.b = def.b or 1
+        color.a = def.a or 1
+    else
+        color = {r = 1, g = 1, b = 1, a = 1}
+    end
+    return color
+end
+
+function SetColor(rgba)
+    love.graphics.setColor(rgba.r, rgba.g, rgba.b, rgba.a)
+end

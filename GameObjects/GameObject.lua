@@ -38,11 +38,8 @@ function GameObject:init(def)
         self.width = self.sprite and self.sprite:getWidth() or def.width
         self.height = self.sprite and self.sprite:getHeight() or def.height
     end
-    self.color = {}
-    self.color.r = def.color and def.color.r or 255/255
-    self.color.g = def.color and def.color.g or 255/255
-    self.color.b = def.color and def.color.b or 255/255
-    self.color.a = def.color and def.color.a or 255/255
+    self.color = NewColor(def.color)
+
     self.toberendered = def.render
     if self.toberendered == nil then
         self.toberendered = true
@@ -52,6 +49,7 @@ function GameObject:init(def)
     for k,v in pairs(self.components) do
         if v.component == 'anim' then
             self.toberendered = false
+            v.color = self.color
             break
         end
     end
@@ -76,7 +74,7 @@ end
 
 function GameObject:render()
     if self.toberendered then
-        love.graphics.setColor(self.color.r,self.color.g,self.color.b,self.color.a)
+        SetColor(self.color)
         if type(self.sprite) == "string" then
             if self.sprite == 'rectangle' then
                 love.graphics.rectangle(self.mode, self.x, self.y, self.width, self.height, self.corners)
