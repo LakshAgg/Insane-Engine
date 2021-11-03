@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include "Insane.h"
 
 char * concat(char *First, char *Second);
 
@@ -15,19 +16,18 @@ int main(void)
 {
     alloc = malloc(8);
 
-    char *loc = malloc(255);
-    printf("Enter the home directory. (Where the location of this directory will be saved, can be anything but choose wisely)\n");
-    scanf("%s", loc);
+    char *loc = get_string("Enter the home directory. (Where the location of this directory will be saved, can be anything but choose wisely)\n");
     char *tmp = concat(loc, "Insane-Engine");
-    free(loc);
     loc = tmp;
     if (mkdir(loc, 0777) == -1){
+        free_all();
         printf("OOPS!\nCould not initialise, make sure that there is no directory name \"Insane-Engine\" in the directory or choose some other directory.\n");
         return 1;
     }
     FILE *f = fopen(concat(loc, "Config.txt"), "w");
     if (f == NULL){
         printf("Something went wrong.");
+        free_all();
         return 1;
     }
     loc = malloc(255);

@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "Insane.h"
 
 char * concat(char *First, char *Second);
 
@@ -24,17 +25,16 @@ int main(int pCount, char *pArgs[]){
     char *fileLocation = concat(getcwd(b, 255), pArgs[1]);
     free(b);
 
-    char *loc = malloc(255);
-    printf("Enter the configuration directory.\n");
-    scanf("%s", loc);
+    char *loc = get_string("Enter the configuration directory.\n");
     char *tmp = concat(loc, "Insane-Engine");
-    free(loc);
     loc = tmp;
 
     FILE *Config = fopen(concat(loc, "/Config.txt"), "r");
     char *p = malloc(255);
     if (Config == NULL){
         printf("Kindly run configuration file. \n Or make sure the home directory preceeds with a \"/\" sign.\n");
+        free(p);
+        free_all();
         return 1;
     }
     fscanf(Config, "%s", p);
@@ -43,6 +43,8 @@ int main(int pCount, char *pArgs[]){
     if (mkdir(pArgs[1], 0777) == -1)
     {
         printf("OOPS! Something went wrong.\n");
+        free(p);
+        free_all();
         return 2;
     }
 
@@ -51,6 +53,8 @@ int main(int pCount, char *pArgs[]){
     if (f == NULL)
     {
         printf("Something went wrong. If u see it too many times, kindly report to the developer.\n");
+        free(p);
+        free_all();
         return 1;
     }
     char *data = "require(\"Engine/Engine\")";

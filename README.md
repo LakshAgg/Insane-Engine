@@ -9,13 +9,13 @@
 # cd to where you installed the Engine
 
 # Compile the Configuration file (You can replace "Config" with any other name)
-$ gcc -o Config Config.c
+$ gcc -o Config Config.c Insane.c
 
 # Configure
 $ ./Config
 
 # Compile the main code (You can replace "Initialiser" with any other name)
-$ gcc -o Initialiser Initialiser.c
+$ gcc -o Initialiser Initialiser.c Insane.c
 
 # Add the path to global variables and
 $ Initialiser [GameName]
