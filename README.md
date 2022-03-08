@@ -220,10 +220,11 @@ init function of Animator takes a table which contains:
 ### Animation
 init function of Animation takes a table which contains:
 * frames
-* interval
+* interval (0.1 by default)
 * loop (bool whether to loop or not)
 * scaleX (1 by defualt)
 * scaleY (1 by defualt)
+* texture (the image texture)
 
 #### frames
 frames is a table of quads which are 1 indexed.

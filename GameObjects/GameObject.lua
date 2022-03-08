@@ -50,6 +50,9 @@ function GameObject:init(def)
         if v.component == 'anim' then
             self.toberendered = false
             v.color = self.color
+            if v.object == nil then
+                v.object = self
+            end
             break
         end
     end
