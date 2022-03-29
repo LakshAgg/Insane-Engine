@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "Insane.h"
+#include <pwd.h>
 
 char * concat(char *First, char *Second);
 
@@ -15,8 +16,13 @@ int allocs = 0;
 int main(void)
 {
     alloc = malloc(8);
-
-    char *loc = get_string("Enter the home directory. (Where the location of this directory will be saved, can be anything but choose wisely)\n");
+    struct passwd *w = getpwuid(getuid());
+    if (w == NULL) 
+    {
+        printf("Something went wrong.\n");
+        exit(1);
+    }
+    char *loc = w->pw_dir;
     char *tmp = concat(loc, "Insane-Engine");
     loc = tmp;
     if (mkdir(loc, 0777) == -1){

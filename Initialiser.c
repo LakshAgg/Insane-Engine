@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "Insane.h"
+#include <pwd.h>
 
 char * concat(char *First, char *Second);
 
@@ -24,8 +25,13 @@ int main(int pCount, char *pArgs[]){
     char *b = malloc(255);
     char *fileLocation = concat(getcwd(b, 255), pArgs[1]);
     free(b);
-
-    char *loc = get_string("Enter the configuration directory.\n");
+    struct passwd *w = getpwuid(getuid());
+    if (w == NULL) 
+    {
+        printf("Something went wrong.\n");
+        exit(1);
+    }
+    char *loc = w->pw_dir;
     char *tmp = concat(loc, "Insane-Engine");
     loc = tmp;
 
